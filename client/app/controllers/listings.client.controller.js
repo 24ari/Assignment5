@@ -1,5 +1,6 @@
-angular.module('listings').controller('ListingsController', ['$scope', '$location', '$stateParams', '$state', 'Listings', 
+angular.module('listings').controller('ListingsController', ['$scope', '$location', '$stateParams', '$state','Listings', 
   function($scope, $location, $stateParams, $state, Listings){
+    
     $scope.find = function() {
       /* set loader*/
       $scope.loading = true;
@@ -79,6 +80,32 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
         successfully finished, navigate back to the 'listing.list' state using $state.go(). If an error 
         occurs, pass it to $scope.error. 
        */
+
+       $scope.error = null;
+       var id = $stateParams.listingId;
+
+       if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'articleForm');
+
+        return false;
+      }
+
+      var listing = {
+        name: $scope.name, 
+        code: $scope.code, 
+        address: $scope.address
+
+      };
+
+       Listings.update(id,listing)
+              .then(function(response) {
+                //if the object is successfully saved redirect back to the list page
+                $state.go('listings.list', { successMessage: 'Listing succesfully updated!' });
+              }, function(error) {
+                //otherwise display the error
+                $scope.error = 'Unable to update listing!\n' + error;
+              });
+      
     };
 
     $scope.remove = function() {
@@ -86,6 +113,26 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
         Implement the remove function. If the removal is successful, navigate back to 'listing.list'. Otherwise, 
         display the error. 
        */
+
+      $scope.error = null;
+
+      //  var listing = {
+      //   name: $scope.name, 
+      //   code: $scope.code, 
+      //   address: $scope.address
+      // };
+
+      var id = $stateParams.listingId;
+
+       console.log("removing");
+
+       Listings.delete(id)
+        .then(function(response) {
+            $state.go('listings.list',{successMessage: 'Listing succesfully deleted!'});
+          },function(error){
+             $scope.error = 'Unable to delete listing!\n' + error; 
+        });
+
     };
 
     /* Bind the success message to the scope if it exists as part of the current state */
@@ -94,12 +141,61 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
     }
 
     /* Map properties */
-    $scope.map = {
-      center: {
-        latitude: 29.65163059999999,
-        longitude: -82.3410518
-      }, 
-      zoom: 14
+
+        $scope.map = {
+          center: {
+            latitude: 29.65163059999999,
+            longitude: -82.3410518
+          },
+          zoom:14
+        } ; 
+
+
+         // var createRandomMarker = function(i,bounds,idKey){
+        //     var lat_min = bounds.southwest.latitude,
+        //         lat_range = bounds.northeast.latitude - lat_min,
+        //         lng_min = bounds.southwest.longitude,
+        //         lng_range = bounds.northwest.longitude - lng_min;
+
+                 // if (idKey == null){
+                 //   idKey = "id";
+                 // }
+        
+        // var latitude = lat_min + (Math.random() * lat_range);
+        // var longitude = lng_min + (Math.random() * lng_range);
+         
+         // var ret = {
+         //     latitude:latitude,
+         //     longitude:longitude,
+         //     title: 'm' + i,
+         //     show:false
+         //  };
+         //   ret[idKey] = i;
+         //   return ret;  
+         // };
+
+
+
+        // $scope.onClick = function(marker,eventName, model){
+        //     console.log("Clicked!");
+        //     model.show = !model.show;
+        // };
+
+
+        //  $scope.randomMarkers = [];
+        // $scope.$watch(function() {return $scope.map.bounds;},function(nv,ov){
+
+        //   if(!ov.southwest && nv.southwest){
+             //  var markers = [];
+             // for(var i = 0; i<50;i++){
+             //     markers.push(createRandomMarker(i, $scope.map.bounds))
+             // }
+             // $scope.randomMarkers = markers;
+          //}
+
+         //},true);
+
+
     }
-  }
+  
 ]);
