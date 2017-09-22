@@ -22,23 +22,23 @@ angular.module('listings').factory('Listings', ['$http',
       // }
 
         getAll: function() {
-        return $https.get('http://radiant-waters-19655.herokuapp.com/api/listings');
+        return $https.get('https://radiant-waters-19655.herokuapp.com/api/listings');
       },
 
       create: function(listing) {
-        return $https.post('http://radiant-waters-19655.herokuapp.com/api/listings', listing);
+        return $https.post('https://radiant-waters-19655.herokuapp.com/api/listings', listing);
       }, 
 
       read: function(id) {
-        return $https.get('http://radiant-waters-19655.herokuapp.com/api/listings/' + id);
+        return $https.get('https://radiant-waters-19655.herokuapp.com/api/listings/' + id);
       }, 
 
       update: function(id, listing) {
-        return $https.put('http://radiant-waters-19655.herokuapp.com/api/listings/' + id, listing);
+        return $https.put('https://radiant-waters-19655.herokuapp.com/api/listings/' + id, listing);
       }, 
 
       delete: function(id) {
-        return $https.delete('http://radiant-waters-19655.herokuapp.com/api/listings/' + id);
+        return $https.delete('https://radiant-waters-19655.herokuapp.com/api/listings/' + id);
       }
 
 
