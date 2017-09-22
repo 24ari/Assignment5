@@ -1,5 +1,7 @@
-angular.module('listings').factory('Listings', ['$http', 
-  function($http) {
+angular.module('listings').factory('Listings', ['$https', 
+  //function($http) {
+   function($https) {
+  
     var methods = {
       // getAll: function() {
       //   return $http.get('http://localhost:8080/api/listings');
